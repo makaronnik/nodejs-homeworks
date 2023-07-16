@@ -4,6 +4,7 @@ const {
   getContactById,
   addContact,
   updateContact,
+  removeContact,
 } = require('../../models/contacts');
 const { HttpError } = require('../../utils/errors');
 const {
@@ -63,9 +64,22 @@ const update = async (req, res) => {
   res.status(200).json(updatedContact);
 };
 
+const deleteById = async (req, res) => {
+  const contactId = req.params.contactId;
+
+  const contact = await removeContact(contactId);
+
+  if (!contact) {
+    throw new HttpError(404, 'Not found');
+  }
+
+  res.status(200).json({ message: 'contact deleted' });
+};
+
 module.exports = {
   getAll: catchAsync(getAll),
   getById: catchAsync(getById),
   create: catchAsync(create),
   update: catchAsync(update),
+  deleteById: catchAsync(deleteById),
 };

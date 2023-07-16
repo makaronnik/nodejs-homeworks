@@ -4,6 +4,7 @@ const {
   getById,
   create,
   update,
+  deleteById,
 } = require('../../controllers/api/contactsController');
 
 const router = express.Router();
@@ -16,16 +17,16 @@ router.get('/:contactId', (req, res, next) => {
   getById(req, res, next);
 });
 
-router.post('/', async (req, res, next) => {
+router.post('/', (req, res, next) => {
   create(req, res, next);
 });
 
-router.put('/:contactId', async (req, res, next) => {
+router.put('/:contactId', (req, res, next) => {
   update(req, res, next);
 });
 
-router.delete('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' });
+router.delete('/:contactId', (req, res, next) => {
+  deleteById(req, res, next);
 });
 
 module.exports = router;
