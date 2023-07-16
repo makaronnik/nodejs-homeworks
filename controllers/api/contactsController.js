@@ -1,3 +1,8 @@
-const getAll = async (req, res) => {};
+const { catchAsync } = require('../../utils/decorators');
+const { listContacts } = require('../../models/contacts');
 
-module.exports = { getAll };
+const getAll = async () => {
+  return await listContacts();
+};
+
+module.exports = { getAll: catchAsync(getAll) };
