@@ -1,8 +1,23 @@
 const { catchAsync } = require('../../utils/decorators');
-const { listContacts } = require('../../models/contacts');
+const { listContacts, getContactById } = require('../../models/contacts');
+const { HttpError } = require('../../utils/errors');
 
-const getAll = async () => {
-  return await listContacts();
+const getAll = async (_, res) => {
+  const contacts = await listContacts();
+
+  res.status(200).json(contacts);
 };
 
-module.exports = { getAll: catchAsync(getAll) };
+const getById = async (req, res) => {
+  const contactId = req.params.contactId;
+
+  const contact = await getContactById(contactId);
+
+  if (!contact) {
+    throw new HttpError(404, 'Not found');
+  }
+
+  res.status(200).json(contact);
+};
+
+module.exports = { getAll: catchAsync(getAll), getById: catchAsync(getById) };
