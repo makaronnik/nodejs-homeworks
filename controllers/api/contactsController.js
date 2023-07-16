@@ -3,10 +3,12 @@ const {
   listContacts,
   getContactById,
   addContact,
+  updateContact,
 } = require('../../models/contacts');
 const { HttpError } = require('../../utils/errors');
 const {
   schemaCreateContact,
+  schemaUpdateContact,
 } = require('../../utils/validators/contactsValidators');
 
 const getAll = async (_, res) => {
@@ -41,8 +43,29 @@ const create = async (req, res) => {
   res.status(201).json(newContact);
 };
 
+const update = async (req, res) => {
+  const contactId = req.params.contactId;
+
+  const { error, value } = schemaUpdateContact.validate(req.body);
+
+  if (error) {
+    throw new HttpError(400, error.message);
+  }
+
+  const { name = null, email = null, phone = null } = value;
+
+  const updatedContact = await updateContact(contactId, name, email, phone);
+
+  if (!updatedContact) {
+    throw new HttpError(404, 'Not found');
+  }
+
+  res.status(200).json(updatedContact);
+};
+
 module.exports = {
   getAll: catchAsync(getAll),
   getById: catchAsync(getById),
   create: catchAsync(create),
+  update: catchAsync(update),
 };
