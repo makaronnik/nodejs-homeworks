@@ -1,5 +1,9 @@
 const express = require('express');
-const { getAll, getById } = require('../../controllers/api/contactsController');
+const {
+  getAll,
+  getById,
+  create,
+} = require('../../controllers/api/contactsController');
 
 const router = express.Router();
 
@@ -12,7 +16,7 @@ router.get('/:contactId', (req, res, next) => {
 });
 
 router.post('/', async (req, res, next) => {
-  res.json({ message: 'template message' });
+  create(req, res, next);
 });
 
 router.delete('/:contactId', async (req, res, next) => {
