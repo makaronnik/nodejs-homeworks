@@ -5,7 +5,7 @@ const {
   create,
   update,
   deleteById,
-} = require('../../controllers/api/contactsController');
+} = require('../../controllers/api/contactsControllers');
 
 const router = express.Router();
 
