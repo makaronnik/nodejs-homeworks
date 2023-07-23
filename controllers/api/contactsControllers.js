@@ -7,6 +7,7 @@ const {
   addContact,
   updateContactFully,
   updateContactPartially,
+  updateStatusContact,
   removeContact,
 } = require('../../services/contactsService');
 const {
@@ -31,6 +32,10 @@ const schemaUpdateContactPartially = Joi.object({
 })
   .or('name', 'email', 'phone', 'favorite')
   .options({ abortEarly: false });
+
+const schemaUpdateStatus = Joi.object({
+  favorite: Joi.boolean().required(),
+});
 
 const getAll = async (_, res) => {
   const contacts = await listContacts();
@@ -86,6 +91,20 @@ const updatePartially = async (req, res) => {
   res.status(200).json(updatedContact);
 };
 
+const updateStatus = async (req, res) => {
+  const contactId = req.params.contactId;
+
+  const { error, value } = schemaUpdateStatus.validate(req.body);
+
+  if (error) {
+    throw new HttpError(400, error.message);
+  }
+
+  const updatedContact = await updateStatusContact(contactId, value);
+
+  res.status(200).json(updatedContact);
+};
+
 const deleteById = async (req, res) => {
   const contactId = req.params.contactId;
 
@@ -100,5 +119,6 @@ module.exports = {
   create: catchAsync(create),
   updateFully: catchAsync(updateFully),
   updatePartially: catchAsync(updatePartially),
+  updateStatus: catchAsync(updateStatus),
   deleteById: catchAsync(deleteById),
 };

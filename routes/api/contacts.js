@@ -5,6 +5,7 @@ const {
   create,
   updateFully,
   updatePartially,
+  updateStatus,
   deleteById,
 } = require('../../controllers/api/contactsControllers');
 const {
@@ -17,6 +18,8 @@ const router = express.Router();
 router.route('/').get(getAll).post(create);
 
 router.use('/:contactId', checkContactId, checkIsContactExistsById);
+
+router.route('/:contactId/favorite').patch(updateStatus);
 
 router
   .route('/:contactId')

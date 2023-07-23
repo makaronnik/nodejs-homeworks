@@ -27,6 +27,9 @@ const updateContactPartially = async (contactId, data) => {
   return contact.save();
 };
 
+const updateStatusContact = (contactId, data) =>
+  updateContactPartially(contactId, data);
+
 const removeContact = contactId => {
   return Contact.findByIdAndDelete(contactId);
 };
@@ -41,6 +44,7 @@ module.exports = {
   addContact,
   updateContactFully,
   updateContactPartially,
+  updateStatusContact,
   removeContact,
   isContactIdValid,
 };
