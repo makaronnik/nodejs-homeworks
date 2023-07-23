@@ -5,40 +5,43 @@ const {
   emailRegexp,
 } = require('../utils/refexps/contactsRegexps');
 
-const contactSchema = new Schema({
-  name: {
-    type: String,
-    validate: {
-      validator: function (name) {
-        return nameRegexp.test(name);
+const contactSchema = new Schema(
+  {
+    name: {
+      type: String,
+      validate: {
+        validator: function (name) {
+          return nameRegexp.test(name);
+        },
+        message: 'name is not a valid!',
       },
-      message: 'name is not a valid!',
+      required: [true, 'Set name for contact'],
     },
-    required: [true, 'Set name for contact'],
-  },
-  email: {
-    type: String,
-    validate: {
-      validator: function (email) {
-        return emailRegexp.test(email);
+    email: {
+      type: String,
+      validate: {
+        validator: function (email) {
+          return emailRegexp.test(email);
+        },
+        message: 'email is not a valid!',
       },
-      message: 'email is not a valid!',
     },
-  },
-  phone: {
-    type: String,
-    validate: {
-      validator: function (phone) {
-        return phoneRegexp.test(phone);
+    phone: {
+      type: String,
+      validate: {
+        validator: function (phone) {
+          return phoneRegexp.test(phone);
+        },
+        message: 'phone is not a valid!',
       },
-      message: 'phone is not a valid!',
+    },
+    favorite: {
+      type: Boolean,
+      default: false,
     },
   },
-  favorite: {
-    type: Boolean,
-    default: false,
-  },
-});
+  { versionKey: false }
+);
 
 const Contact = model('Contact', contactSchema);
 

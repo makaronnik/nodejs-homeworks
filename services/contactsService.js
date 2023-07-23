@@ -13,8 +13,13 @@ const getContactById = contactId => {
   return Contact.findById(contactId);
 };
 
+const addContact = data => {
+  return Contact.create(data);
+};
+
 module.exports = {
   isContactIdValid,
   listContacts,
   getContactById,
+  addContact,
 };

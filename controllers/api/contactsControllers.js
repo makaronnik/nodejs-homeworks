@@ -4,12 +4,9 @@ const { catchAsync } = require('../../utils/decorators');
 const {
   listContacts,
   getContactById,
-} = require('../../services/contactsService');
-const {
   addContact,
-  updateContact,
-  removeContact,
-} = require('../../models/contacts');
+} = require('../../services/contactsService');
+const { updateContact, removeContact } = require('../../models/contacts');
 const {
   nameRegexp,
   phoneRegexp,
@@ -19,14 +16,16 @@ const schemaCreateContact = Joi.object({
   name: Joi.string().pattern(nameRegexp).min(3).max(30).required(),
   email: Joi.string().email().required(),
   phone: Joi.string().pattern(phoneRegexp).min(7).max(18).required(),
+  favorite: Joi.boolean().optional().default(false),
 }).options({ abortEarly: false });
 
 const schemaUpdateContact = Joi.object({
   name: Joi.string().pattern(nameRegexp).min(3).max(30).optional(),
   email: Joi.string().email().optional(),
   phone: Joi.string().pattern(phoneRegexp).min(7).max(18).optional(),
+  favorite: Joi.boolean().optional(),
 })
-  .or('name', 'email', 'phone')
+  .or('name', 'email', 'phone', 'favorite')
   .options({ abortEarly: false });
 
 const getAll = async (_, res) => {
@@ -54,9 +53,7 @@ const create = async (req, res) => {
     throw new HttpError(400, error.message);
   }
 
-  const { name, email, phone } = value;
-
-  const newContact = await addContact(name, email, phone);
+  const newContact = await addContact(value);
 
   res.status(201).json(newContact);
 };
