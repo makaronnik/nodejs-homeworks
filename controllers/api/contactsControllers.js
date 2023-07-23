@@ -1,8 +1,8 @@
 const Joi = require('joi');
 const { HttpError } = require('../../utils/errors');
 const { catchAsync } = require('../../utils/decorators');
+const { listContacts } = require('../../services/contactsService');
 const {
-  listContacts,
   getContactById,
   addContact,
   updateContact,
