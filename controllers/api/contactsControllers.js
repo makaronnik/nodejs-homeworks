@@ -1,9 +1,11 @@
 const Joi = require('joi');
 const { HttpError } = require('../../utils/errors');
 const { catchAsync } = require('../../utils/decorators');
-const { listContacts } = require('../../services/contactsService');
 const {
+  listContacts,
   getContactById,
+} = require('../../services/contactsService');
+const {
   addContact,
   updateContact,
   removeContact,
@@ -39,7 +41,7 @@ const getById = async (req, res) => {
   const contact = await getContactById(contactId);
 
   if (!contact) {
-    throw new HttpError(404, 'Not found');
+    throw new HttpError(404, 'Contact does not exist!');
   }
 
   res.status(200).json(contact);

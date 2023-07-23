@@ -76,8 +76,6 @@ const removeContact = async contactId => {
 };
 
 module.exports = {
-  listContacts,
-  getContactById,
   addContact,
   updateContact,
   removeContact,
