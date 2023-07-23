@@ -1,3 +1,5 @@
+const Joi = require('joi');
+const { HttpError } = require('../../utils/errors');
 const { catchAsync } = require('../../utils/decorators');
 const {
   listContacts,
@@ -6,11 +8,24 @@ const {
   updateContact,
   removeContact,
 } = require('../../models/contacts');
-const { HttpError } = require('../../utils/errors');
 const {
-  schemaCreateContact,
-  schemaUpdateContact,
-} = require('../../utils/validators/contactsValidators');
+  nameRegexp,
+  phoneRegexp,
+} = require('../../utils/refexps/contactsRegexps');
+
+const schemaCreateContact = Joi.object({
+  name: Joi.string().pattern(nameRegexp).min(3).max(30).required(),
+  email: Joi.string().email().required(),
+  phone: Joi.string().pattern(phoneRegexp).min(7).max(18).required(),
+}).options({ abortEarly: false });
+
+const schemaUpdateContact = Joi.object({
+  name: Joi.string().pattern(nameRegexp).min(3).max(30).optional(),
+  email: Joi.string().email().optional(),
+  phone: Joi.string().pattern(phoneRegexp).min(7).max(18).optional(),
+})
+  .or('name', 'email', 'phone')
+  .options({ abortEarly: false });
 
 const getAll = async (_, res) => {
   const contacts = await listContacts();
