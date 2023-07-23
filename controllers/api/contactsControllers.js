@@ -7,8 +7,8 @@ const {
   addContact,
   updateContactFully,
   updateContactPartially,
+  removeContact,
 } = require('../../services/contactsService');
-const { removeContact } = require('../../models/contacts');
 const {
   nameRegexp,
   phoneRegexp,
@@ -42,10 +42,6 @@ const getById = async (req, res) => {
   const contactId = req.params.contactId;
 
   const contact = await getContactById(contactId);
-
-  if (!contact) {
-    throw new HttpError(404, 'Contact does not exist!');
-  }
 
   res.status(200).json(contact);
 };
@@ -93,13 +89,9 @@ const updatePartially = async (req, res) => {
 const deleteById = async (req, res) => {
   const contactId = req.params.contactId;
 
-  const contact = await removeContact(contactId);
+  await removeContact(contactId);
 
-  if (!contact) {
-    throw new HttpError(404, 'Not found');
-  }
-
-  res.status(200).json({ message: 'contact deleted' });
+  res.status(200).json({ message: 'Contact deleted successfully!' });
 };
 
 module.exports = {

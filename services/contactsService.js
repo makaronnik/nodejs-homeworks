@@ -1,10 +1,6 @@
 const { Types } = require('mongoose');
 const Contact = require('../models/contactModel');
 
-const isContactIdValid = contactId => {
-  return Types.ObjectId.isValid(contactId);
-};
-
 const listContacts = () => {
   return Contact.find({});
 };
@@ -31,11 +27,20 @@ const updateContactPartially = async (contactId, data) => {
   return contact.save();
 };
 
+const removeContact = contactId => {
+  return Contact.findByIdAndDelete(contactId);
+};
+
+const isContactIdValid = contactId => {
+  return Types.ObjectId.isValid(contactId);
+};
+
 module.exports = {
-  isContactIdValid,
   listContacts,
   getContactById,
   addContact,
   updateContactFully,
   updateContactPartially,
+  removeContact,
+  isContactIdValid,
 };
