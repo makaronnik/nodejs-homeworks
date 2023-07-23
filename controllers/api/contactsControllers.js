@@ -5,8 +5,10 @@ const {
   listContacts,
   getContactById,
   addContact,
+  updateContactFully,
+  updateContactPartially,
 } = require('../../services/contactsService');
-const { updateContact, removeContact } = require('../../models/contacts');
+const { removeContact } = require('../../models/contacts');
 const {
   nameRegexp,
   phoneRegexp,
@@ -19,7 +21,9 @@ const schemaCreateContact = Joi.object({
   favorite: Joi.boolean().optional().default(false),
 }).options({ abortEarly: false });
 
-const schemaUpdateContact = Joi.object({
+const schemaUpdateContactFully = schemaCreateContact;
+
+const schemaUpdateContactPartially = Joi.object({
   name: Joi.string().pattern(nameRegexp).min(3).max(30).optional(),
   email: Joi.string().email().optional(),
   phone: Joi.string().pattern(phoneRegexp).min(7).max(18).optional(),
@@ -58,22 +62,30 @@ const create = async (req, res) => {
   res.status(201).json(newContact);
 };
 
-const update = async (req, res) => {
+const updateFully = async (req, res) => {
   const contactId = req.params.contactId;
 
-  const { error, value } = schemaUpdateContact.validate(req.body);
+  const { error, value } = schemaUpdateContactFully.validate(req.body);
 
   if (error) {
     throw new HttpError(400, error.message);
   }
 
-  const { name = null, email = null, phone = null } = value;
+  const updatedContact = await updateContactFully(contactId, value);
 
-  const updatedContact = await updateContact(contactId, name, email, phone);
+  res.status(200).json(updatedContact);
+};
 
-  if (!updatedContact) {
-    throw new HttpError(404, 'Not found');
+const updatePartially = async (req, res) => {
+  const contactId = req.params.contactId;
+
+  const { error, value } = schemaUpdateContactPartially.validate(req.body);
+
+  if (error) {
+    throw new HttpError(400, error.message);
   }
+
+  const updatedContact = await updateContactPartially(contactId, value);
 
   res.status(200).json(updatedContact);
 };
@@ -94,6 +106,7 @@ module.exports = {
   getAll: catchAsync(getAll),
   getById: catchAsync(getById),
   create: catchAsync(create),
-  update: catchAsync(update),
+  updateFully: catchAsync(updateFully),
+  updatePartially: catchAsync(updatePartially),
   deleteById: catchAsync(deleteById),
 };

@@ -3,7 +3,8 @@ const {
   getAll,
   getById,
   create,
-  update,
+  updateFully,
+  updatePartially,
   deleteById,
 } = require('../../controllers/api/contactsControllers');
 const {
@@ -17,6 +18,11 @@ router.route('/').get(getAll).post(create);
 
 router.use('/:contactId', checkContactId, checkIsContactExistsById);
 
-router.route('/:contactId').get(getById).put(update).delete(deleteById);
+router
+  .route('/:contactId')
+  .get(getById)
+  .put(updateFully)
+  .patch(updatePartially)
+  .delete(deleteById);
 
 module.exports = router;
