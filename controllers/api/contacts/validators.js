@@ -1,8 +1,5 @@
 const Joi = require('joi');
-const {
-  nameRegexp,
-  phoneRegexp,
-} = require('../../../utils/refexps/contactsRegexps');
+const { nameRegexp, phoneRegexp } = require('../../../utils/refexps');
 
 const schemaCreateContact = Joi.object({
   name: Joi.string().pattern(nameRegexp).min(3).max(30).required(),

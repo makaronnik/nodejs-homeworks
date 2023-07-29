@@ -1,9 +1,5 @@
 const { Schema, model } = require('mongoose');
-const {
-  nameRegexp,
-  phoneRegexp,
-  emailRegexp,
-} = require('../utils/refexps/contactsRegexps');
+const { nameRegexp, phoneRegexp, emailRegexp } = require('../utils/refexps');
 
 const contactSchema = new Schema(
   {
