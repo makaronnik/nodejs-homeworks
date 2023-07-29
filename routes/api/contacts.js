@@ -7,7 +7,7 @@ const {
   updatePartially,
   updateStatus,
   deleteById,
-} = require('../../controllers/api/contactsControllers');
+} = require('../../controllers/api/contacts');
 const {
   checkContactId,
   checkIsContactExistsById,
