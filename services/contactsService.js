@@ -4,7 +4,19 @@ const { Contact } = require('../models');
 const listContacts = req => {
   const userId = req.user.id;
 
-  return Contact.find({ owner: userId }, '-owner');
+  const { page = 1, favorite } = req.query;
+
+  let { limit = 20 } = req.query;
+
+  if (limit > 100) {
+    limit = 100;
+  }
+
+  const skip = (page - 1) * limit;
+
+  const query = favorite ? { owner: userId, favorite } : { owner: userId };
+
+  return Contact.find(query, '-owner').skip(skip).limit(limit);
 };
 
 const getContactById = contactId => {
