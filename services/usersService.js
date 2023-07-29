@@ -9,9 +9,7 @@ const getUserById = id => {
 };
 
 const getUserByEmail = email => {
-  return User.findOne({ email })
-    .collation({ locale: 'en', strength: 2 })
-    .exec();
+  return User.findOne({ email }).collation({ locale: 'en', strength: 2 });
 };
 
 const updateUserById = (id, data) => {
