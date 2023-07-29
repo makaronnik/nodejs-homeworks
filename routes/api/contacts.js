@@ -12,8 +12,11 @@ const {
   checkContactId,
   checkIsContactExistsById,
 } = require('../../utils/middleware/contactsMiddleware');
+const { authenticate } = require('../../utils/middleware/authMiddleware');
 
 const router = express.Router();
+
+router.use(authenticate);
 
 router.route('/').get(getAll).post(create);
 

@@ -1,16 +1,19 @@
 const { User } = require('../models');
 
-const addUser = async data => {
-  const user = await User.create(data);
-
-  return user;
+const addUser = data => {
+  return User.create(data);
 };
 
-const getUserByEmail = async email => {
-  return await User.findOne({ email });
+const getUserById = id => {
+  return User.findById(id);
+};
+
+const getUserByEmail = email => {
+  return User.findOne({ email });
 };
 
 module.exports = {
   addUser,
+  getUserById,
   getUserByEmail,
 };
