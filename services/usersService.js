@@ -14,8 +14,13 @@ const getUserByEmail = email => {
     .exec();
 };
 
+const updateUserById = (id, data) => {
+  return User.findByIdAndUpdate(id, data, { new: true });
+};
+
 module.exports = {
   addUser,
   getUserById,
   getUserByEmail,
+  updateUserById,
 };

@@ -5,10 +5,12 @@ const {
   login,
   logout,
   current,
+  update,
 } = require('../../controllers/api/users');
 
 const router = express.Router();
 
+router.patch('/:userId', update);
 router.post('/register', register);
 router.post('/login', login);
 router.post('/logout', authenticate, logout);
