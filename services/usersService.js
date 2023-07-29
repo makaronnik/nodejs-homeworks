@@ -9,7 +9,9 @@ const getUserById = id => {
 };
 
 const getUserByEmail = email => {
-  return User.findOne({ email });
+  return User.findOne({ email })
+    .collation({ locale: 'en', strength: 2 })
+    .exec();
 };
 
 module.exports = {
