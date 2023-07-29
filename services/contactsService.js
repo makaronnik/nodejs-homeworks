@@ -1,5 +1,5 @@
 const { Types } = require('mongoose');
-const Contact = require('../models/contactModel');
+const { Contact } = require('../models');
 
 const listContacts = () => {
   return Contact.find({});
