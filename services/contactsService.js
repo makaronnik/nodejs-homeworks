@@ -1,8 +1,9 @@
 const { Types } = require('mongoose');
 const { Contact } = require('../models');
 
-const listContacts = () => {
-  return Contact.find({});
+const listContacts = req => {
+  const userId = req.user.id;
+  return Contact.find({ owner: userId }, '-owner');
 };
 
 const getContactById = contactId => {
