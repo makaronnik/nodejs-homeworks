@@ -3,7 +3,7 @@ const { catchAsync } = require('../../../utils/decorators');
 const { schemaLoginUser } = require('./validators');
 const { getUserByEmail } = require('../../../services/usersService');
 
-exports.login = catchAsync(async (req, res) => {
+module.exports = catchAsync(async (req, res) => {
   const { error, value } = schemaLoginUser.validate(req.body);
 
   if (error) {

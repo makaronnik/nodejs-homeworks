@@ -1,6 +1,6 @@
 const { catchAsync } = require('../../../utils/decorators');
 
-exports.current = catchAsync(async (req, res) => {
+module.exports = catchAsync(async (req, res) => {
   const { user } = req;
 
   res.status(200).json({

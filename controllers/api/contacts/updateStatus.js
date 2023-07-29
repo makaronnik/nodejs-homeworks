@@ -3,7 +3,7 @@ const { schemaUpdateStatus } = require('./validators');
 const { catchAsync } = require('../../../utils/decorators');
 const { updateStatusContact } = require('../../../services/contactsService');
 
-exports.updateStatus = catchAsync(async (req, res) => {
+module.exports = catchAsync(async (req, res) => {
   const contactId = req.params.contactId;
 
   const { error, value } = schemaUpdateStatus.validate(req.body);

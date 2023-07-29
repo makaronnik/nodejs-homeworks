@@ -3,7 +3,7 @@ const { catchAsync } = require('../../../utils/decorators');
 const { schemaUpdateContactPartially } = require('./validators');
 const { updateContactPartially } = require('../../../services/contactsService');
 
-exports.updatePartially = catchAsync(async (req, res) => {
+module.exports = catchAsync(async (req, res) => {
   const contactId = req.params.contactId;
 
   const { error, value } = schemaUpdateContactPartially.validate(req.body);

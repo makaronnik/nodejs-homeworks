@@ -3,7 +3,7 @@ const { catchAsync } = require('../../../utils/decorators');
 const { schemaRegisterUser } = require('./validators');
 const { addUser, getUserByEmail } = require('../../../services/usersService');
 
-exports.register = catchAsync(async (req, res) => {
+module.exports = catchAsync(async (req, res) => {
   const { error, value } = schemaRegisterUser.validate(req.body);
 
   if (error) {

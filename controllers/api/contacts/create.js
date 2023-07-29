@@ -3,7 +3,7 @@ const { schemaCreateContact } = require('./validators');
 const { catchAsync } = require('../../../utils/decorators');
 const { addContact } = require('../../../services/contactsService');
 
-exports.create = catchAsync(async (req, res) => {
+module.exports = catchAsync(async (req, res) => {
   const { error, value } = schemaCreateContact.validate(req.body);
 
   if (error) {

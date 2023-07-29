@@ -1,1 +1,1 @@
-exports.nameRegexp = /^[\p{Script=Latin}\p{Script=Cyrillic}\s]*$/u;
+module.exports = /^[\p{Script=Latin}\p{Script=Cyrillic}\s]*$/u;

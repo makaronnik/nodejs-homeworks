@@ -1,1 +1,1 @@
-exports.phoneRegexp = /^[0-9 ()+-]+$/;
+module.exports = /^[0-9 ()+-]+$/;

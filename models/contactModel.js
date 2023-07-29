@@ -43,6 +43,4 @@ const contactSchema = new Schema(
   { versionKey: false }
 );
 
-const Contact = model('Contact', contactSchema);
-
-module.exports = Contact;
+module.exports = model('Contact', contactSchema);

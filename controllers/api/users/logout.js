@@ -1,6 +1,6 @@
 const { catchAsync } = require('../../../utils/decorators');
 
-exports.logout = catchAsync(async (req, res) => {
+module.exports = catchAsync(async (req, res) => {
   const { user } = req;
 
   user.token = null;
