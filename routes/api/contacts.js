@@ -3,30 +3,29 @@ const {
   getAll,
   getById,
   create,
-  update,
+  updateFully,
+  updatePartially,
+  updateStatus,
   deleteById,
-} = require('../../controllers/api/contactsController');
+} = require('../../controllers/api/contacts');
+const {
+  checkContactId,
+  checkIsContactExistsById,
+} = require('../../utils/middleware/contactsMiddleware');
 
 const router = express.Router();
 
-router.get('/', (req, res, next) => {
-  getAll(req, res, next);
-});
+router.route('/').get(getAll).post(create);
 
-router.get('/:contactId', (req, res, next) => {
-  getById(req, res, next);
-});
+router.use('/:contactId', checkContactId, checkIsContactExistsById);
 
-router.post('/', (req, res, next) => {
-  create(req, res, next);
-});
+router.route('/:contactId/favorite').patch(updateStatus);
 
-router.put('/:contactId', (req, res, next) => {
-  update(req, res, next);
-});
-
-router.delete('/:contactId', (req, res, next) => {
-  deleteById(req, res, next);
-});
+router
+  .route('/:contactId')
+  .get(getById)
+  .put(updateFully)
+  .patch(updatePartially)
+  .delete(deleteById);
 
 module.exports = router;
