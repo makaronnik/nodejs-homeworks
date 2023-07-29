@@ -3,6 +3,7 @@ const { Contact } = require('../models');
 
 const listContacts = req => {
   const userId = req.user.id;
+
   return Contact.find({ owner: userId }, '-owner');
 };
 
@@ -18,9 +19,7 @@ const updateContactFully = (contactId, data) => {
   return Contact.findByIdAndUpdate(contactId, data, { new: true });
 };
 
-const updateContactPartially = async (contactId, data) => {
-  const contact = await Contact.findById(contactId);
-
+const updateContactPartially = async (contact, data) => {
   Object.keys(data).forEach(key => {
     contact[key] = data[key];
   });
@@ -28,8 +27,8 @@ const updateContactPartially = async (contactId, data) => {
   return contact.save();
 };
 
-const updateStatusContact = (contactId, data) =>
-  updateContactPartially(contactId, data);
+const updateStatusContact = (contact, data) =>
+  updateContactPartially(contact, data);
 
 const removeContact = contactId => {
   return Contact.findByIdAndDelete(contactId);

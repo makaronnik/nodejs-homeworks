@@ -10,7 +10,7 @@ const {
 } = require('../../controllers/api/contacts');
 const {
   checkContactId,
-  checkIsContactExistsById,
+  checkAndSetAvailableContactById,
 } = require('../../utils/middleware/contactsMiddleware');
 const { authenticate } = require('../../utils/middleware/authMiddleware');
 
@@ -20,7 +20,7 @@ router.use(authenticate);
 
 router.route('/').get(getAll).post(create);
 
-router.use('/:contactId', checkContactId, checkIsContactExistsById);
+router.use('/:contactId', checkContactId, checkAndSetAvailableContactById);
 
 router.route('/:contactId/favorite').patch(updateStatus);
 
