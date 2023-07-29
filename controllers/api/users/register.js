@@ -16,9 +16,10 @@ exports.register = catchAsync(async (req, res) => {
 
   const user = await addUser(value);
 
-  user.password = undefined;
-
   res.status(201).json({
-    user,
+    user: {
+      email: user.email,
+      subscription: user.subscription,
+    },
   });
 });

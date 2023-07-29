@@ -1,12 +1,15 @@
-const bcrypt = require('bcrypt');
 const { Schema, model } = require('mongoose');
+const {
+  hashPassword,
+  comparePassword,
+} = require('../services/passwordsService');
+const { generateToken } = require('../services/authService');
 
 const userSchema = new Schema(
   {
     password: {
       type: String,
       required: [true, 'Set password for user'],
-      select: false,
     },
     email: {
       type: String,
@@ -24,19 +27,25 @@ const userSchema = new Schema(
 );
 
 userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) {
-    return next();
+  if (this.isModified('password')) {
+    this.password = await hashPassword(this.password);
   }
-
-  const salt = bcrypt.genSaltSync(10);
-
-  this.password = await bcrypt.hash(this.password, salt);
 
   next();
 });
 
-userSchema.methods.validPassword = async function (password) {
-  return await bcrypt.compare(password, this.password);
+userSchema.methods.validPassword = function (password) {
+  return comparePassword(password, this.password);
+};
+
+userSchema.methods.assignToken = function () {
+  const token = generateToken({ id: this._id });
+
+  this.token = token;
+
+  this.save();
+
+  return token;
 };
 
 const User = model('User', userSchema);
