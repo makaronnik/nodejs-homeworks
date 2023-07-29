@@ -10,7 +10,9 @@ module.exports = catchAsync(async (req, res) => {
     throw new HttpError(400, error.message);
   }
 
-  const newContact = await addContact(value);
+  const newContact = await addContact({ ...value, owner: req.user.id });
+
+  newContact.owner = undefined;
 
   res.status(201).json(newContact);
 });
