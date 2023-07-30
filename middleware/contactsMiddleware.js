@@ -1,8 +1,8 @@
-const { HttpError } = require('../errors');
+const { HttpError } = require('../utils/errors');
 const {
   isContactIdValid,
   getContactById,
-} = require('../../services/contactsService');
+} = require('../services/contactsService');
 
 const checkContactId = (req, _, next) => {
   const contactId = req.params.contactId;

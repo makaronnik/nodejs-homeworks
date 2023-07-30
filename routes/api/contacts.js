@@ -11,8 +11,8 @@ const {
 const {
   checkContactId,
   checkAndSetAvailableContactById,
-} = require('../../utils/middleware/contactsMiddleware');
-const { authenticate } = require('../../utils/middleware/authMiddleware');
+} = require('../../middleware/contactsMiddleware');
+const { authenticate } = require('../../middleware/authMiddleware');
 
 const router = express.Router();
 

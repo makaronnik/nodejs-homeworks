@@ -1,13 +1,13 @@
-const { HttpError } = require('../errors');
-const { catchAsync } = require('../decorators');
-const { verifyToken } = require('../../services/authService');
-const { getUserById } = require('../../services/usersService');
+const { HttpError } = require('../utils/errors');
+const { catchAsync } = require('../utils/decorators');
+const { verifyToken } = require('../services/authService');
+const { getUserById } = require('../services/usersService');
 
 const authenticate = catchAsync(async (req, _, next) => {
   const authHeader = req.get('Authorization');
-  const token = authHeader?.split(' ')[1];
+  const [prefix, token] = authHeader?.split(' ');
 
-  if (!token) {
+  if (prefix !== 'Bearer' || !token) {
     throw new HttpError(401, 'Not authorized');
   }
 
