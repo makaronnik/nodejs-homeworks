@@ -1,7 +1,7 @@
 const { catchAsync } = require('../../../utils/decorators');
 const { removeContact } = require('../../../services/contactsService');
 
-exports.deleteById = catchAsync(async (req, res) => {
+module.exports = catchAsync(async (req, res) => {
   const contactId = req.params.contactId;
 
   await removeContact(contactId);

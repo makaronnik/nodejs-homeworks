@@ -1,9 +1,5 @@
 const { Schema, model } = require('mongoose');
-const {
-  nameRegexp,
-  phoneRegexp,
-  emailRegexp,
-} = require('../utils/refexps/contactsRegexps');
+const { nameRegexp, phoneRegexp, emailRegexp } = require('../utils/refexps');
 
 const contactSchema = new Schema(
   {
@@ -39,10 +35,12 @@ const contactSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: 'user',
+    },
   },
   { versionKey: false }
 );
 
-const Contact = model('Contact', contactSchema);
-
-module.exports = Contact;
+module.exports = model('Contact', contactSchema);

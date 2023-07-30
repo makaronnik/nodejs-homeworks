@@ -3,16 +3,18 @@ const { schemaUpdateStatus } = require('./validators');
 const { catchAsync } = require('../../../utils/decorators');
 const { updateStatusContact } = require('../../../services/contactsService');
 
-exports.updateStatus = catchAsync(async (req, res) => {
-  const contactId = req.params.contactId;
-
+module.exports = catchAsync(async (req, res) => {
   const { error, value } = schemaUpdateStatus.validate(req.body);
 
   if (error) {
     throw new HttpError(400, error.message);
   }
 
-  const updatedContact = await updateStatusContact(contactId, value);
+  const contact = req.contact;
+
+  const updatedContact = await updateStatusContact(contact, value);
+
+  updatedContact.owner = undefined;
 
   res.status(200).json(updatedContact);
 });

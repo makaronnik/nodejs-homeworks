@@ -1,8 +1,8 @@
-const { HttpError } = require('../errors');
+const { HttpError } = require('../utils/errors');
 const {
   isContactIdValid,
   getContactById,
-} = require('../../services/contactsService');
+} = require('../services/contactsService');
 
 const checkContactId = (req, _, next) => {
   const contactId = req.params.contactId;
@@ -14,21 +14,24 @@ const checkContactId = (req, _, next) => {
   next();
 };
 
-const checkIsContactExistsById = async (req, _, next) => {
+const checkAndSetAvailableContactById = async (req, _, next) => {
+  const userId = req.user.id;
   const contactId = req.params.contactId;
 
   const contact = await getContactById(contactId);
 
-  if (!contact) {
+  if (!contact || contact.owner.toString() !== userId) {
     next(new HttpError(404, 'Contact does not exist!'));
 
     return;
   }
+
+  req.contact = contact;
 
   next();
 };
 
 module.exports = {
   checkContactId,
-  checkIsContactExistsById,
+  checkAndSetAvailableContactById,
 };

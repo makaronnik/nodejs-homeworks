@@ -1,9 +1,10 @@
 const { catchAsync } = require('../../../utils/decorators');
 
 module.exports = catchAsync(async (req, res) => {
-  const contact = req.contact;
+  const { user } = req;
 
-  contact.owner = undefined;
-
-  res.status(200).json(req.contact);
+  res.status(200).json({
+    email: user.email,
+    subscription: user.subscription,
+  });
 });
