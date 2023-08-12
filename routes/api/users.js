@@ -7,6 +7,7 @@ const {
   current,
   update,
   updateAvatar,
+  verify,
 } = require('../../controllers/api/users');
 const ImagesMiddlewareFactory = require('../../factories/middleware/imagesMiddlewareFactory');
 
@@ -20,5 +21,6 @@ router.post('/register', register);
 router.post('/login', login);
 router.post('/logout', authenticate, logout);
 router.get('/current', authenticate, current);
+router.get('/verify/:verificationToken', verify);
 
 module.exports = router;

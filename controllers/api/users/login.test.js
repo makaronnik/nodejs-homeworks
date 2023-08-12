@@ -17,12 +17,13 @@ describe('Login Controller Test', () => {
     jest.clearAllMocks();
   });
 
-  it('should return status 200, token and a user with email and subscription fields', async () => {
+  it('should return status 200, token and a user with email and subscription fields and email verified', async () => {
     const mockUser = {
       email: 'test@test.com',
       subscription: 'pro',
       validPassword: jest.fn().mockReturnValue(Promise.resolve(true)),
       assignToken: jest.fn().mockReturnValue('test_token'),
+      verify: true,
     };
 
     getUserByEmail.mockReturnValue(Promise.resolve(mockUser));

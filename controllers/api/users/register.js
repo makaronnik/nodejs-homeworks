@@ -2,6 +2,7 @@ const { HttpError } = require('../../../utils/errors');
 const { catchAsync } = require('../../../utils/decorators');
 const { schemaRegisterUser } = require('./validators');
 const { addUser, getUserByEmail } = require('../../../services/usersService');
+const { sendVerificationEmail } = require('../../../services/emailService');
 
 module.exports = catchAsync(async (req, res) => {
   const { error, value } = schemaRegisterUser.validate(req.body);
@@ -15,6 +16,8 @@ module.exports = catchAsync(async (req, res) => {
   }
 
   const user = await addUser(value);
+
+  await sendVerificationEmail(user.email, user.verificationToken);
 
   res.status(201).json({
     user: {

@@ -15,6 +15,13 @@ const getUserByEmail = email => {
   return User.findOne({ email }).collation({ locale: 'en', strength: 2 });
 };
 
+const getUserByVerificationToken = verificationToken => {
+  return User.findOne({ verificationToken }).collation({
+    locale: 'en',
+    strength: 2,
+  });
+};
+
 const updateUserById = (id, data) => {
   return User.findByIdAndUpdate(id, data, { new: true });
 };
@@ -35,6 +42,7 @@ module.exports = {
   addUser,
   getUserById,
   getUserByEmail,
+  getUserByVerificationToken,
   updateUserById,
   updateUserAvatarById,
 };

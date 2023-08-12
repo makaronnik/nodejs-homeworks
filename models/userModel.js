@@ -1,4 +1,5 @@
 var gravatar = require('gravatar');
+const { v4: uuid } = require('uuid');
 const { Schema, model } = require('mongoose');
 const {
   hashPassword,
@@ -26,11 +27,22 @@ const userSchema = new Schema(
       type: String,
     },
     token: String,
+    verify: {
+      type: Boolean,
+      default: false,
+    },
+    verificationToken: {
+      type: String,
+    },
   },
   { versionKey: false, timestamps: true }
 );
 
 userSchema.pre('save', async function (next) {
+  if (this.isNew) {
+    this.verificationToken = uuid();
+  }
+
   if (this.isModified('password')) {
     this.password = await hashPassword(this.password);
   }
