@@ -5,6 +5,7 @@ const current = require('./current');
 const update = require('./update');
 const updateAvatar = require('./updateAvatar');
 const verify = require('./verify');
+const resendVerificationEmail = require('./resendVerificationEmail');
 
 module.exports = {
   register,
@@ -14,4 +15,5 @@ module.exports = {
   update,
   updateAvatar,
   verify,
+  resendVerificationEmail,
 };
