@@ -1,3 +1,4 @@
+var gravatar = require('gravatar');
 const { Schema, model } = require('mongoose');
 const {
   hashPassword,
@@ -21,6 +22,9 @@ const userSchema = new Schema(
       enum: ['starter', 'pro', 'business'],
       default: 'starter',
     },
+    avatarUrl: {
+      type: String,
+    },
     token: String,
   },
   { versionKey: false, timestamps: true }
@@ -29,6 +33,14 @@ const userSchema = new Schema(
 userSchema.pre('save', async function (next) {
   if (this.isModified('password')) {
     this.password = await hashPassword(this.password);
+  }
+
+  if (!this.avatarUrl) {
+    this.avatarUrl = gravatar.url(this.email, {
+      size: 250,
+      rating: 'x',
+      default: 'retro',
+    });
   }
 
   next();

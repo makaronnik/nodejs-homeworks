@@ -6,10 +6,15 @@ const {
   logout,
   current,
   update,
+  updateAvatar,
 } = require('../../controllers/api/users');
+const ImagesMiddlewareFactory = require('../../factories/middleware/imagesMiddlewareFactory');
+
+const imagesMiddleware = ImagesMiddlewareFactory.getSingleMiddleware('avatar');
 
 const router = express.Router();
 
+router.patch('/avatars', authenticate, imagesMiddleware, updateAvatar);
 router.patch('/:userId', update);
 router.post('/register', register);
 router.post('/login', login);

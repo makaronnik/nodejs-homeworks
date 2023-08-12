@@ -4,7 +4,7 @@ const { verifyToken } = require('../services/authService');
 const { getUserById } = require('../services/usersService');
 
 const authenticate = catchAsync(async (req, _, next) => {
-  const authHeader = req.get('Authorization');
+  const authHeader = req.get('Authorization') ?? '';
   const [prefix, token] = authHeader?.split(' ');
 
   if (prefix !== 'Bearer' || !token) {
