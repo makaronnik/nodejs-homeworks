@@ -22,6 +22,10 @@ module.exports = catchAsync(async (req, res) => {
     throw new HttpError(401, 'Email or password is wrong');
   }
 
+  if (!user.verify) {
+    throw new HttpError(401, 'Email is not verified');
+  }
+
   const token = user.assignToken();
 
   res.status(200).json({

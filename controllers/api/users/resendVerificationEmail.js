@@ -1,28 +1,29 @@
 const { HttpError } = require('../../../utils/errors');
 const { catchAsync } = require('../../../utils/decorators');
-const { schemaRegisterUser } = require('./validators');
+const { schemaResendVerificationEmail } = require('./validators');
 const { addUser, getUserByEmail } = require('../../../services/usersService');
 const { sendVerificationEmail } = require('../../../services/emailService');
 
 module.exports = catchAsync(async (req, res) => {
-  const { error, value } = schemaRegisterUser.validate(req.body);
+  const { error, value } = schemaResendVerificationEmail.validate(req.body);
 
   if (error) {
     throw new HttpError(400, error.message);
   }
 
-  if (await getUserByEmail(value.email)) {
-    throw new HttpError(409, 'Email in use');
+  const user = await getUserByEmail(value.email);
+
+  if (!user) {
+    throw new HttpError(401, 'Email is wrong');
   }
 
-  const user = await addUser(value);
+  if (user.verify) {
+    throw new HttpError(400, 'Verification has already been passed');
+  }
 
   await sendVerificationEmail(user.email, user.verificationToken);
 
-  res.status(201).json({
-    user: {
-      email: user.email,
-      subscription: user.subscription,
-    },
+  res.status(200).json({
+    message: 'Verification email sent',
   });
 });

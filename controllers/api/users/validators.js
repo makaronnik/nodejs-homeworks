@@ -8,6 +8,10 @@ const schemaRegisterUser = Joi.object({
 
 const schemaLoginUser = schemaRegisterUser;
 
+const schemaResendVerificationEmail = Joi.object({
+  email: Joi.string().pattern(emailRegexp).required(),
+});
+
 const schemaUpdateUser = Joi.object({
   subscription: Joi.string().valid('starter', 'pro', 'business').required(),
 });
@@ -15,5 +19,6 @@ const schemaUpdateUser = Joi.object({
 module.exports = {
   schemaRegisterUser,
   schemaLoginUser,
+  schemaResendVerificationEmail,
   schemaUpdateUser,
 };
